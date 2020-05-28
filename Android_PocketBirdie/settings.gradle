@@ -1,0 +1,2 @@
+rootProject.name='PocketBirdie'
+include ':app'
