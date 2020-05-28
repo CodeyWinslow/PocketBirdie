@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Defaults -->
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <!-- Primary Colors -->
+    <color name="BrownDark">#c49f37</color>
+    <color name="BrownLight">#f0d27f</color>
+    <color name="GreenDark">#3f9e46</color>
+    <color name="GreenLight">#63c96a</color>
+    <color name="White">#ffffff</color>
+    <color name="Black">#0f0f0f</color>
 </resources>
