@@ -47,13 +47,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void setDatabase()
     {
+//        getPreferences(Context.MODE_PRIVATE)
+//                .edit()
+//                .remove("appInit")
+//                .apply();
         if (!getPreferences(Context.MODE_PRIVATE).contains("appInit"))
         {
-            DBInteract.InitDB();
+            DBInteract.InitDB(this);
             getPreferences(Context.MODE_PRIVATE)
                     .edit()
                     .putBoolean("appInit",true)
                     .apply();
+        }
+        else
+        {
+            DBInteract.LoadDB(this);
         }
     }
 
