@@ -1,41 +1,90 @@
 package com.example.pocketbirdie;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
     static final String DEBUG_TAG = "ACTIVITY_MAIN";
-    ImageButton AddButton;
+
+        Toolbar toolbar;
+        DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getWidgets();
+        setToolbar();
+        setContents();
+        LoadNewGameFragment();
     }
 
-    private void getWidgets()
+    private void setToolbar()
     {
-        AddButton = findViewById(R.id.main_add_button);
-        AddButton.setOnClickListener(this);
+        toolbar = findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+    }
+
+    private void setContents()
+    {
+        drawer = findViewById(R.id.games_drawer);
+    }
+
+    private void LoadNewGameFragment()
+    {
+        NewGameFragment frag = new NewGameFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame_main_content, frag);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+        ft.commit();
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId())
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.top_appbar_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId())
         {
-            case R.id.main_add_button:
-                Intent intent = new Intent(this, GameViewActivity.class);
-                startActivity(intent);
-                finish();
+            case R.id.menu_games_list:
+                if (!drawer.isDrawerOpen(Gravity.RIGHT))
+                    drawer.openDrawer(Gravity.RIGHT);
+                else
+                    drawer.closeDrawer(Gravity.RIGHT);
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(Gravity.RIGHT))
+        {
+            drawer.closeDrawer(Gravity.RIGHT);
+        }
+        else {
+            super.onBackPressed();
         }
     }
 }

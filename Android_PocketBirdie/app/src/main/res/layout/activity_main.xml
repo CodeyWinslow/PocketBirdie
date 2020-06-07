@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/games_drawer"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -16,45 +21,41 @@
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/top_appbar_menu"
             app:title="@string/app_name"
             app:titleTextColor="@color/White" />
     </com.google.android.material.appbar.AppBarLayout >
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <FrameLayout
+        android:id="@+id/frame_main_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="@dimen/main_add_button_text"
-                android:textColor="@color/White"
-                android:text="@string/main_add_button_text"/>
-            <!--ImageButton
-                android:id="@+id/main_add_button"
-                android:layout_width="@dimen/main_add_button_size"
-                android:layout_height="@dimen/main_add_button_size"
-                android:layout_gravity="center"
-                android:background="#00FFFFFF"
-                android:scaleType="fitXY"
-                android:src="@drawable/round_add_circle_black_36" /-->
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/main_add_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/round_add_circle_black_48"
-                app:maxImageSize="@dimen/main_add_button_size"
-                app:fabCustomSize="@dimen/main_add_button_size"/>
-
-        </LinearLayout>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
 </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/GreenLight"
+        android:layout_gravity="end|right">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Previous Games"
+            android:textAlignment="textEnd"
+            android:background="@color/BrownLight"
+            android:textColor="@color/White"
+            android:textSize="18sp" />
+        <ListView
+            android:id="@+id/games_list"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+</androidx.drawerlayout.widget.DrawerLayout>
