@@ -2,6 +2,7 @@ package com.example.pocketbirdie;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,7 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId())
         {
             case R.id.main_add_button:
-                Log.d(DEBUG_TAG, "button clicked!");
+                Intent intent = new Intent(this, GameViewActivity.class);
+                startActivity(intent);
+                finish();
         }
     }
 }
