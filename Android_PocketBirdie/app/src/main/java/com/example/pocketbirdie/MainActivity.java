@@ -1,21 +1,20 @@
 package com.example.pocketbirdie;
 
+import com.example.pocketbirdie.fragments.*;
+import com.example.pocketbirdie.model.*;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         setToolbar();
         setContents();
+        setDatabase();
         LoadNewGameFragment();
     }
 
@@ -43,6 +43,18 @@ public class MainActivity extends AppCompatActivity {
     private void setContents()
     {
         drawer = findViewById(R.id.games_drawer);
+    }
+
+    private void setDatabase()
+    {
+        if (!getPreferences(Context.MODE_PRIVATE).contains("appInit"))
+        {
+            DBInteract.InitDB();
+            getPreferences(Context.MODE_PRIVATE)
+                    .edit()
+                    .putBoolean("appInit",true)
+                    .apply();
+        }
     }
 
     private void LoadNewGameFragment()
