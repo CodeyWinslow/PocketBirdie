@@ -11,10 +11,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.style.TtsSpan;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,22 +50,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void setDatabase()
     {
-//        getPreferences(Context.MODE_PRIVATE)
-//                .edit()
-//                .remove("appInit")
-//                .apply();
-        if (!getPreferences(Context.MODE_PRIVATE).contains("appInit"))
-        {
-            DBInteract.InitDB(this);
-            getPreferences(Context.MODE_PRIVATE)
-                    .edit()
-                    .putBoolean("appInit",true)
-                    .apply();
-        }
-        else
-        {
-            DBInteract.LoadDB(this);
-        }
+        DBInteract.InitDB(this);
+        Game game = new Game("Whistler's bend", "TODAY", 2);
+        game.setHole(0, 3,0);
+        game.setHole(1,3,-1);
+        DBInteract.saveNewGame(game);
+        List<Game> gameList = DBInteract.getAllGames();
     }
 
     private void LoadNewGameFragment()
