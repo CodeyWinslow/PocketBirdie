@@ -12,4 +12,11 @@
     <color name="GreenLight">#63c96a</color>
     <color name="White">#ffffff</color>
     <color name="Black">#0f0f0f</color>
+
+    <!-- Palette 1 -->
+    <color name="Green1">#384D48</color>
+    <color name="Green2">#7E9181</color>
+    <color name="Gray1">#C7CEDB</color>
+    <color name="Gray2">#A0AAB2</color>
+    <color name="PinkPurple">#94849B</color>
 </resources>

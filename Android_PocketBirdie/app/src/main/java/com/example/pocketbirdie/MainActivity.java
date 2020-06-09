@@ -4,12 +4,17 @@ import com.example.pocketbirdie.fragments.*;
 import com.example.pocketbirdie.model.*;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
+import android.graphics.BlendMode;
+import android.graphics.BlendModeColorFilter;
+import android.graphics.ColorFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.style.TtsSpan;
 import android.view.Gravity;
@@ -51,22 +56,18 @@ public class MainActivity extends AppCompatActivity {
     private void setDatabase()
     {
         DBInteract.InitDB(this);
-        Game game = new Game("Whistler's bend", "TODAY", 2);
-        game.setHole(0, 3,0);
-        game.setHole(1,3,-1);
-        DBInteract.saveNewGame(game);
-        List<Game> gameList = DBInteract.getAllGames();
     }
 
     private void LoadNewGameFragment()
     {
         NewGameFragment frag = new NewGameFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frame_main_content, frag);
+        ft.replace(R.id.frame_main_content, frag, NewGameFragment.Fragment_Tag);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
         ft.commit();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {

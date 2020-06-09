@@ -13,6 +13,8 @@ import com.example.pocketbirdie.R;
 
 public class NewGameFragment extends Fragment implements View.OnClickListener {
 
+
+    public static String Fragment_Tag = "FRAG_TAG_NEWGAME";
     ImageButton AddButton;
 
     public NewGameFragment() {
@@ -21,11 +23,21 @@ public class NewGameFragment extends Fragment implements View.OnClickListener {
 
     private void LoadGameFragment(int id)
     {
+        FragmentTransaction ft;
+
         GameFragment frag = new GameFragment();
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(getView().getId(), frag);
+        ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame_main_content, frag);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
         ft.commit();
+
+        Fragment oldFrag = getActivity().getSupportFragmentManager().findFragmentByTag(Fragment_Tag);
+        if (oldFrag != null)
+        {
+            ft = getActivity().getSupportFragmentManager().beginTransaction();
+            ft.remove(oldFrag);
+            ft.commit();
+        }
     }
 
     @Override
