@@ -1,9 +1,13 @@
 package com.example.pocketbirdie.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game {
+public class Game implements Parcelable {
 
     String m_date;
     String m_park;
@@ -29,6 +33,41 @@ public class Game {
             m_hole_ids[i] = -1l;
         }
     }
+
+    protected Game(Parcel in) {
+        m_date = in.readString();
+        m_park = in.readString();
+        if (in.readByte() == 0) {
+            m_final_score = null;
+        } else {
+            m_final_score = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            m_game_par = null;
+        } else {
+            m_game_par = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            m_holes = null;
+        } else {
+            m_holes = in.readInt();
+        }
+        m_hole_scores = (Integer[]) in.readArray(Object[].class.getClassLoader());
+        m_hole_pars = (Integer[]) in.readArray(Object[].class.getClassLoader());
+        m_hole_ids = (Long[]) in.readArray(Object[].class.getClassLoader());
+    }
+
+    public static final Creator<Game> CREATOR = new Creator<Game>() {
+        @Override
+        public Game createFromParcel(Parcel in) {
+            return new Game(in);
+        }
+
+        @Override
+        public Game[] newArray(int size) {
+            return new Game[size];
+        }
+    };
 
     private void calcFinalScore()
     {
@@ -60,5 +99,39 @@ public class Game {
         m_hole_scores[hole] = score;
         calcFinalScore();
         calcGamePar();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeString(m_date);
+        dest.writeString(m_park);
+        if (m_final_score == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(m_final_score);
+        }
+        if (m_game_par == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(m_game_par);
+        }
+        if (m_holes == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(m_holes);
+        }
+
+        dest.writeArray(m_hole_scores);
+        dest.writeArray(m_hole_pars);
+        dest.writeArray(m_hole_ids);
     }
 }

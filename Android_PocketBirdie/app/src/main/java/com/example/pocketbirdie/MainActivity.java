@@ -27,6 +27,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     static final String DEBUG_TAG = "ACTIVITY_MAIN";
+    public static final String Pref_CurrentHole = "PREFKEY_CURRENTHOLE";
 
         Toolbar toolbar;
         DrawerLayout drawer;
@@ -60,6 +61,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void LoadNewGameFragment()
     {
+        //temporary
+        getPreferences(Context.MODE_PRIVATE)
+                .edit()
+                .putInt(MainActivity.Pref_CurrentHole, 0)
+                .apply();
+
         NewGameFragment frag = new NewGameFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frame_main_content, frag, NewGameFragment.Fragment_Tag);
