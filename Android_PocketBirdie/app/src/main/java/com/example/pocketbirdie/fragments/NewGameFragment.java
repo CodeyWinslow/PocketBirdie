@@ -1,5 +1,6 @@
 package com.example.pocketbirdie.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,9 @@ import android.widget.ImageButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.pocketbirdie.MainActivity;
 import com.example.pocketbirdie.R;
+import com.example.pocketbirdie.model.DBInteract;
 import com.example.pocketbirdie.model.Game;
 
 public class NewGameFragment extends Fragment implements View.OnClickListener {
@@ -24,7 +27,6 @@ public class NewGameFragment extends Fragment implements View.OnClickListener {
     EditText numHoles;
 
     public NewGameFragment() {
-        // Required empty public constructor
     }
 
     private void LoadGameFragment()
@@ -35,18 +37,25 @@ public class NewGameFragment extends Fragment implements View.OnClickListener {
         String park = parkName.getText().toString();
         Integer holes = Integer.parseInt(numHoles.getText().toString());
 
+        requireActivity().getPreferences(Context.MODE_PRIVATE)
+                .edit()
+                .putInt(MainActivity.Pref_CurrentHole, 0)
+                .apply();
+
         newGame = new Game(park, "TODAY", holes);
 
+        DBInteract.saveNewGame(newGame);
+
         GameFragment frag = new GameFragment(newGame);
-        ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft = requireActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frame_main_content, frag);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
         ft.commit();
 
-        Fragment oldFrag = getActivity().getSupportFragmentManager().findFragmentByTag(Fragment_Tag);
+        Fragment oldFrag = requireActivity().getSupportFragmentManager().findFragmentByTag(Fragment_Tag);
         if (oldFrag != null)
         {
-            ft = getActivity().getSupportFragmentManager().beginTransaction();
+            ft = requireActivity().getSupportFragmentManager().beginTransaction();
             ft.remove(oldFrag);
             ft.commit();
         }

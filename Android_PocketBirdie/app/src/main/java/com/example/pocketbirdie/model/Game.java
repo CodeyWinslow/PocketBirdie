@@ -3,12 +3,15 @@ package com.example.pocketbirdie.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.Nullable;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Game implements Parcelable {
 
+    Long db_id;
     String m_date;
     String m_park;
     Integer m_final_score;
@@ -20,6 +23,7 @@ public class Game implements Parcelable {
 
     public Game(String park, String date, Integer holes)
     {
+        db_id = -1l;
         m_park = park;
         m_date = date;
         m_holes = holes;
@@ -35,6 +39,11 @@ public class Game implements Parcelable {
     }
 
     protected Game(Parcel in) {
+        if (in.readByte() == 0) {
+            db_id = null;
+        } else {
+            db_id = in.readLong();
+        }
         m_date = in.readString();
         m_park = in.readString();
         if (in.readByte() == 0) {
@@ -80,6 +89,7 @@ public class Game implements Parcelable {
     }
 
     //getters
+    public Long getDbId() { return db_id; }
     public String getDate() { return m_date; }
     public String getParkName() { return m_park; }
     public Integer getFinalScore() { return m_final_score; }
@@ -90,6 +100,7 @@ public class Game implements Parcelable {
     public Long getHoleId(Integer hole) { return m_hole_ids[hole]; }
 
     //setters
+    public void setDbId(Long id) { db_id = id; }
     public void setDate(String date) { m_date = date; }
     public void setParkName(String park) { m_park = park; }
     public void setHoleId(Integer hole, Long id) { m_hole_ids[hole] = id; }
@@ -109,6 +120,12 @@ public class Game implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 
+        if (db_id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(db_id);
+        }
         dest.writeString(m_date);
         dest.writeString(m_park);
         if (m_final_score == null) {
@@ -133,5 +150,13 @@ public class Game implements Parcelable {
         dest.writeArray(m_hole_scores);
         dest.writeArray(m_hole_pars);
         dest.writeArray(m_hole_ids);
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        Game gameObj = (Game)obj;
+        return ((db_id == gameObj.getDbId())
+                && (m_park.compareTo(gameObj.getParkName()) == 0)
+                && (m_date.compareTo(gameObj.getDate()) == 0));
     }
 }

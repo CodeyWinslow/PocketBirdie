@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/Gray2"
+        android:background="@color/PinkPurple"
         android:layout_gravity="end|right">
 
         <TextView
@@ -46,13 +46,12 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="Previous Games"
-            android:textAlignment="textEnd"
-            android:background="@color/BrownLight"
+            android:background="@color/Green2"
             android:textColor="@color/White"
             android:textSize="18sp" />
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/games_list"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="0dp"
             android:layout_weight="1"/>
 

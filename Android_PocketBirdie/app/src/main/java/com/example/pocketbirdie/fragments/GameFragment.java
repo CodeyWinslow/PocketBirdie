@@ -1,9 +1,13 @@
 package com.example.pocketbirdie.fragments;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.media.Image;
 import android.os.BaseBundle;
 import android.os.Bundle;
+import android.preference.DialogPreference;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +19,13 @@ import androidx.fragment.app.Fragment;
 
 import com.example.pocketbirdie.MainActivity;
 import com.example.pocketbirdie.R;
+import com.example.pocketbirdie.model.DBInteract;
 import com.example.pocketbirdie.model.Game;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.w3c.dom.Text;
+
+import java.util.Objects;
 
 public class GameFragment extends Fragment implements View.OnClickListener {
 
@@ -70,12 +77,14 @@ public class GameFragment extends Fragment implements View.OnClickListener {
         //prepare
         Integer newHole = hole + amount;
         if (newHole < currentGame.getNumHoles()
-            && newHole >= 0)
-        {
+                && newHole >= 0) {
             hole = newHole;
 
+            //save to db
+            DBInteract.updateGame(currentGame);
+
             //save prefs
-            getActivity().getPreferences(Context.MODE_PRIVATE)
+            requireActivity().getPreferences(Context.MODE_PRIVATE)
                     .edit()
                     .putInt(MainActivity.Pref_CurrentHole, hole)
                     .apply();
@@ -119,8 +128,17 @@ public class GameFragment extends Fragment implements View.OnClickListener {
         if (savedInstanceState != null) {
             Game savedGame = savedInstanceState.getParcelable(BUNDLE_GAME);
             if (savedGame != null) {
-                currentGame = (Game) savedGame;
+                currentGame = savedGame;
             }
+        }
+        else
+        {
+            //set prefs
+            requireActivity().getPreferences(Context.MODE_PRIVATE)
+                    .edit()
+                    .putBoolean(MainActivity.Pref_GameInProgress, true)
+                    .putLong(MainActivity.Pref_CurrentGame, currentGame.getDbId())
+                    .apply();
         }
     }
 
@@ -152,9 +170,9 @@ public class GameFragment extends Fragment implements View.OnClickListener {
         }
 
         parkTitle.setText(currentGame.getParkName());
-        hole = getActivity().getPreferences(Context.MODE_PRIVATE)
+        hole = requireActivity().getPreferences(Context.MODE_PRIVATE)
                 .getInt(MainActivity.Pref_CurrentHole, 0);
-        getActivity().getPreferences(Context.MODE_PRIVATE)
+        requireActivity().getPreferences(Context.MODE_PRIVATE)
                 .edit()
                 .putInt(MainActivity.Pref_CurrentHole, hole)
                 .apply();
@@ -190,12 +208,10 @@ public class GameFragment extends Fragment implements View.OnClickListener {
                 AdjustScore(1);
                 break;
             case R.id.game_previous_hole:
-                if (hole > 0)
-                    AdjustHole(-1);
+                AdjustHole(-1);
                 break;
             case R.id.game_next_hole:
-                if (hole < currentGame.getNumHoles()-1)
-                    AdjustHole(1);
+                AdjustHole(1);
                 break;
         }
     }

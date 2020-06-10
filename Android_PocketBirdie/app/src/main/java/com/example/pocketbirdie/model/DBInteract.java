@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQuery;
 
 import java.io.File;
+import java.sql.SQLInput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +22,9 @@ public class DBInteract extends SQLiteOpenHelper {
     private static SQLiteDatabase DBase;
     private static DBInteract _instance;
 
-    public static Game getGame(Long id)
-    {
-        Game game;
+    public static Game getGame(Long id) {
+        SQLiteDatabase db = _instance.getReadableDatabase();
+        Game game = null;
         Cursor cur;
         String park;
         String date;
@@ -34,28 +35,34 @@ public class DBInteract extends SQLiteOpenHelper {
         Integer holePar;
         Long holeId;
 
-        cur = DBase.rawQuery("SELECT PARK, DATE, HOLES " +
-                "FROM GAMES WHERE _id = ?;", new String[] {id.toString()});
+        cur = db.rawQuery("SELECT PARK, DATE, HOLES " +
+                "FROM GAMES WHERE _id = ?;", new String[]{id.toString()});
 
-        park = cur.getString(0);
-        date = cur.getString(1);
-        holes = cur.getInt(2);
+        if (cur != null && cur.moveToFirst()) {
+            park = cur.getString(0);
+            date = cur.getString(1);
+            holes = cur.getInt(2);
 
-        game = new Game(park, date, holes);
+            game = new Game(park, date, holes);
+            game.setDbId(id);
 
-        cur = DBase.rawQuery("SELECT _id, HOLE_NUM, HOLE_PAR, HOLE_SCORE "+
-                "FROM GAMES_TO_HOLES " +
-                "WHERE GAME_ID = ?;", new String[] {id.toString()});
+            cur = db.rawQuery("SELECT _id, HOLE_NUM, HOLE_PAR, HOLE_SCORE " +
+                    "FROM GAMES_TO_HOLES " +
+                    "WHERE GAME_ID = ?;", new String[]{id.toString()});
+            if (cur != null && cur.moveToFirst()) {
+                while (!cur.isAfterLast()) {
+                    holeId = new Long(cur.getInt(0));
+                    holeNum = cur.getInt(1);
+                    holePar = cur.getInt(2);
+                    holeScore = cur.getInt(3);
 
-        while (!cur.isAfterLast())
-        {
-            holeId = new Long(cur.getInt(0));
-            holeNum = cur.getInt(1);
-            holePar = cur.getInt(2);
-            holeScore = cur.getInt(3);
+                    game.setHole(holeNum, holePar, holeScore);
+                    game.setHoleId(holeNum, holeId);
 
-            game.setHole(holeNum, holePar, holeScore);
-            game.setHoleId(holeNum, holeId);
+                    cur.moveToNext();
+                }
+                cur.close();
+            }
         }
 
         return game;
@@ -69,6 +76,7 @@ public class DBInteract extends SQLiteOpenHelper {
         values.put("DATE", game.getDate());
         values.put("HOLES", game.getNumHoles());
         Long gameId = db.insert("GAMES", null, values);
+        game.setDbId(gameId);
         for (int i = 0; i < game.getNumHoles(); ++i) {
             values = new ContentValues();
             values.put("GAME_ID", gameId);
@@ -81,31 +89,33 @@ public class DBInteract extends SQLiteOpenHelper {
         }
     }
 
-    public static void updateGame(Long id, Game game)
+    public static void updateGame(Game game)
     {
-        ContentValues values = new ContentValues();
-        values.put("PARK", game.getParkName());
-        values.put("DATE", game.getDate());
-        values.put("HOLES", game.getNumHoles());
-        DBase.update("GAMES", values, "_id = ?", new String[] { id.toString()});
+        Long id = game.getDbId();
+        if (id > 0) {
+            SQLiteDatabase db = _instance.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("PARK", game.getParkName());
+            values.put("DATE", game.getDate());
+            values.put("HOLES", game.getNumHoles());
+            db.update("GAMES", values, "_id = ?", new String[]{id.toString()});
 
-        for (int i = 0; i < game.getNumHoles(); ++i) {
-            values = new ContentValues();
-            values.put("GAME_ID", id);
-            values.put("HOLE_NUM", i);
-            values.put("HOLE_SCORE", game.getHoleScore(i));
-            values.put("HOLE_PAR", game.getHolePar(i));
-            if (game.getHoleId(i) < 0) {
-                game.setHoleId(
-                        i,
-                        DBase.insert("GAMES_TO_HOLES", null, values));
-            }
-            else
-            {
-                DBase.update("GAMES_TO_HOLES",
-                        values,
-                        "_id = ?",
-                        new String[] {game.getHoleId(i).toString()});
+            for (int i = 0; i < game.getNumHoles(); ++i) {
+                values = new ContentValues();
+                values.put("GAME_ID", id);
+                values.put("HOLE_NUM", i);
+                values.put("HOLE_SCORE", game.getHoleScore(i));
+                values.put("HOLE_PAR", game.getHolePar(i));
+                if (game.getHoleId(i) < 0) {
+                    game.setHoleId(
+                            i,
+                            db.insert("GAMES_TO_HOLES", null, values));
+                } else {
+                    db.update("GAMES_TO_HOLES",
+                            values,
+                            "_id = ?",
+                            new String[]{game.getHoleId(i).toString()});
+                }
             }
         }
     }
