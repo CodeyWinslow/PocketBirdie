@@ -107,7 +107,14 @@ public class Game implements Parcelable {
     public Integer getHolePar(Integer hole) { return m_hole_pars[hole]; }
     public Long getHoleId(Integer hole) { return m_hole_ids[hole]; }
     public Integer getNumThrows() {
-        return 0;
+        int numThrows = 0;
+
+        for (int ii = 0; ii < m_holes; ++ii)
+        {
+            numThrows += (m_hole_pars[ii] + m_hole_scores[ii]);
+        }
+
+        return numThrows;
     }
 
     //setters

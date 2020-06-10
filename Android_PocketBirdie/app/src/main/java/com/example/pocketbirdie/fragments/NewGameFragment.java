@@ -16,6 +16,9 @@ import com.example.pocketbirdie.R;
 import com.example.pocketbirdie.model.DBInteract;
 import com.example.pocketbirdie.model.Game;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class NewGameFragment extends Fragment implements View.OnClickListener {
 
 
@@ -42,7 +45,9 @@ public class NewGameFragment extends Fragment implements View.OnClickListener {
                 .putInt(MainActivity.Pref_CurrentHole, 0)
                 .apply();
 
-        newGame = new Game(park, "TODAY", holes);
+        Date currentTime = Calendar.getInstance().getTime();
+
+        newGame = new Game(park, currentTime.toString(), holes);
 
         DBInteract.saveNewGame(newGame);
 

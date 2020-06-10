@@ -1,5 +1,6 @@
 package com.example.pocketbirdie.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -58,7 +59,21 @@ public class GameDetailsFragment extends Fragment
 
     void ShareGame()
     {
+        String message = "";
 
+        message += "My disc golf game at " + currentGame.getParkName() + ":\n";
+        message += "Final score: " + currentGame.getFinalScore().toString() + "\n";
+        message += "Number of holes: " + currentGame.getNumHoles().toString() + "\n";
+        message += "Course par: " + currentGame.getGamePar().toString() + "\n";
+        message += "Throws: " + currentGame.getNumThrows().toString() + "\n";
+
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, message);
+        sendIntent.setType("text/plain");
+
+        Intent shareIntent = Intent.createChooser(sendIntent, "How would you like to send?");
+        startActivity(shareIntent);
     }
 
     @Override

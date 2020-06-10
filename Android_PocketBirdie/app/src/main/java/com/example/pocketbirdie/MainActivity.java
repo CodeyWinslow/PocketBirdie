@@ -204,6 +204,7 @@ public class MainActivity extends AppCompatActivity
             for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                 fm.popBackStack();
             }
+            drawer.closeDrawer(Gravity.RIGHT);
         }
     }
 }

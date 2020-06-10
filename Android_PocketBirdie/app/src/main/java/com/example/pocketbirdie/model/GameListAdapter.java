@@ -1,5 +1,6 @@
 package com.example.pocketbirdie.model;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,11 @@ import com.example.pocketbirdie.R;
 
 import org.w3c.dom.Text;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeParseException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameViewHolder> {
@@ -45,7 +51,22 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
     @Override
     public void onBindViewHolder(@NonNull GameViewHolder holder, int position) {
         holder.parkTitle.setText(gameList.get(position).getParkName());
-        holder.date.setText(gameList.get(position).getDate());
+
+        SimpleDateFormat sdf = new SimpleDateFormat();
+        Date gameDate = Calendar.getInstance().getTime();
+        try {
+             gameDate = sdf.parse(gameList.get(position).getDate());
+        }
+        catch (ParseException e)
+        {
+            Log.d("GameListAdapter", "There was an issue");
+        }
+        Date today = Calendar.getInstance().getTime();
+        sdf.applyPattern("MM/dd/yyyy");
+        String gameDateString = sdf.format(gameDate);
+        if (gameDateString.compareTo(sdf.format(today)) == 0)
+            gameDateString = "Today";
+        holder.date.setText(gameDateString);
     }
 
     @Override
