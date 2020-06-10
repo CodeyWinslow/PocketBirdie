@@ -80,12 +80,20 @@ public class Game implements Parcelable {
 
     private void calcFinalScore()
     {
-
+        m_final_score = 0;
+        for (int ii = 0; ii < m_holes; ++ii)
+        {
+            m_final_score += m_hole_scores[ii];
+        }
     }
 
     private void calcGamePar()
     {
-
+        m_game_par = 0;
+        for (int ii = 0; ii < m_holes; ++ii)
+        {
+            m_game_par += m_hole_pars[ii];
+        }
     }
 
     //getters
@@ -98,6 +106,9 @@ public class Game implements Parcelable {
     public Integer getHoleScore(Integer hole) { return m_hole_scores[hole]; }
     public Integer getHolePar(Integer hole) { return m_hole_pars[hole]; }
     public Long getHoleId(Integer hole) { return m_hole_ids[hole]; }
+    public Integer getNumThrows() {
+        return 0;
+    }
 
     //setters
     public void setDbId(Long id) { db_id = id; }

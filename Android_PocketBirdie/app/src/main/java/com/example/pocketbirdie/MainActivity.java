@@ -8,6 +8,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -83,7 +85,8 @@ public class MainActivity extends AppCompatActivity
 //                .putInt(Pref_CurrentHole, 0)
 //                .apply();
 
-        adapter = new GameListAdapter(DBInteract.getAllGames(),
+        listOfGames = DBInteract.getAllGames();
+        adapter = new GameListAdapter(listOfGames,
                 this);
         gameList.setAdapter(adapter);
     }
@@ -104,7 +107,8 @@ public class MainActivity extends AppCompatActivity
 
     public void updateGameList()
     {
-        adapter.setGameList(DBInteract.getAllGames());
+        listOfGames = DBInteract.getAllGames();
+        adapter.setGameList(listOfGames);
     }
 
     private void LoadCurrentGame()
@@ -180,10 +184,26 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onClick(Integer position) {
-        Game game = listOfGames.get(position);
 
-        Toast.makeText(this,
-                "You clicked on " + game.getParkName() + "!",
-                Toast.LENGTH_SHORT).show();
+        Boolean gameInProgress = getPreferences(Context.MODE_PRIVATE)
+                .getBoolean(Pref_GameInProgress, false);
+
+        if (!gameInProgress) {
+            Game game = listOfGames.get(position);
+
+            FragmentTransaction ft;
+            FragmentManager fm = getSupportFragmentManager();
+
+            GameDetailsFragment frag = new GameDetailsFragment(game);
+            ft = fm.beginTransaction();
+            ft.replace(R.id.frame_main_content, frag, GameDetailsFragment.Fragment_Tag);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+            ft.addToBackStack(null);
+            ft.commit();
+
+            for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                fm.popBackStack();
+            }
+        }
     }
 }

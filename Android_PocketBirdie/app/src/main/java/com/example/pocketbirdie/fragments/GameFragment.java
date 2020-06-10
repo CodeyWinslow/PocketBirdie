@@ -163,14 +163,11 @@ public class GameFragment extends Fragment implements View.OnClickListener {
                                 .putLong(MainActivity.Pref_CurrentGame, -1)
                                 .apply();
 
-                        //will implement: move to stats page
-
-                        //TEMP: go back to new game
-
+                        //move to stats page
                         FragmentTransaction ft;
-                        NewGameFragment frag = new NewGameFragment();
+                        GameDetailsFragment frag = new GameDetailsFragment(currentGame);
                         ft = requireActivity().getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.frame_main_content, frag);
+                        ft.replace(R.id.frame_main_content, frag, GameDetailsFragment.Fragment_Tag);
                         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                         ft.commit();
 
