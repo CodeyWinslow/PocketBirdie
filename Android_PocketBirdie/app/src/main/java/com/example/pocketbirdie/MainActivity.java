@@ -83,8 +83,8 @@ public class MainActivity extends AppCompatActivity
 //                .putInt(Pref_CurrentHole, 0)
 //                .apply();
 
-        listOfGames = DBInteract.getAllGames();
-        adapter = new GameListAdapter(listOfGames,  this);
+        adapter = new GameListAdapter(DBInteract.getAllGames(),
+                this);
         gameList.setAdapter(adapter);
     }
 
@@ -100,6 +100,11 @@ public class MainActivity extends AppCompatActivity
         else {
             LoadNewGameFragment();
         }
+    }
+
+    public void updateGameList()
+    {
+        adapter.setGameList(DBInteract.getAllGames());
     }
 
     private void LoadCurrentGame()

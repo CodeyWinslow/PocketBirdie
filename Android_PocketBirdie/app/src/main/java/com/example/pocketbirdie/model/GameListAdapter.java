@@ -27,6 +27,12 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         onClickListener = callback;
     }
 
+    public void setGameList(List<Game> list)
+    {
+        gameList = list;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public GameViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

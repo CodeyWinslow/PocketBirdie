@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.pocketbirdie.MainActivity;
 import com.example.pocketbirdie.R;
@@ -30,6 +31,7 @@ import java.util.Objects;
 public class GameFragment extends Fragment implements View.OnClickListener {
 
     static String BUNDLE_GAME = "BUNDLEKEY_GAME";
+    static String Fragment_Tag = "FRAG_TAG_GAME";
 
     //vals
     Integer score;
@@ -70,6 +72,15 @@ public class GameFragment extends Fragment implements View.OnClickListener {
         if (score > 0)
             scoreString = "+" + scoreString;
         scoreView.setText(scoreString);
+        if (hole == 0)
+            previousHole.setVisibility(View.GONE);
+        else
+            previousHole.setVisibility(View.VISIBLE);
+
+        if (hole == currentGame.getNumHoles() - 1)
+            nextHole.setImageDrawable(requireActivity().getDrawable(R.drawable.ic_baseline_check_24));
+        else
+            nextHole.setImageDrawable(requireActivity().getDrawable(R.drawable.ic_baseline_arrow_forward_24));
     }
 
     void AdjustHole(Integer amount)
@@ -120,6 +131,68 @@ public class GameFragment extends Fragment implements View.OnClickListener {
 
         //display
         parView.setText(parString);
+    }
+
+    void FinishGame()
+    {
+        DialogInterface.OnClickListener whenAnswered
+                = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                //save to db
+                DBInteract.updateGame(currentGame);
+
+                //save prefs
+                requireActivity().getPreferences(Context.MODE_PRIVATE)
+                        .edit()
+                        .putInt(MainActivity.Pref_CurrentHole, hole)
+                        .apply();
+
+                switch (which)
+                {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //save to db
+                        DBInteract.updateGame(currentGame);
+
+                        //fix prefs
+                        requireActivity().getPreferences(Context.MODE_PRIVATE)
+                                .edit()
+                                .putBoolean(MainActivity.Pref_GameInProgress, false)
+                                .putInt(MainActivity.Pref_CurrentHole, 0)
+                                .putLong(MainActivity.Pref_CurrentGame, -1)
+                                .apply();
+
+                        //will implement: move to stats page
+
+                        //TEMP: go back to new game
+
+                        FragmentTransaction ft;
+                        NewGameFragment frag = new NewGameFragment();
+                        ft = requireActivity().getSupportFragmentManager().beginTransaction();
+                        ft.replace(R.id.frame_main_content, frag);
+                        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+                        ft.commit();
+
+                        Fragment oldFrag = requireActivity().getSupportFragmentManager().findFragmentByTag(Fragment_Tag);
+                        if (oldFrag != null)
+                        {
+                            ft = requireActivity().getSupportFragmentManager().beginTransaction();
+                            ft.remove(oldFrag);
+                            ft.commit();
+                        }
+
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setMessage("Finish game?")
+                .setPositiveButton("Yeah", whenAnswered)
+                .setNegativeButton("Nah", whenAnswered)
+                .show();
     }
 
     @Override
@@ -211,7 +284,10 @@ public class GameFragment extends Fragment implements View.OnClickListener {
                 AdjustHole(-1);
                 break;
             case R.id.game_next_hole:
-                AdjustHole(1);
+                if (hole == currentGame.getNumHoles() - 1)
+                    FinishGame();
+                else
+                    AdjustHole(1);
                 break;
         }
     }

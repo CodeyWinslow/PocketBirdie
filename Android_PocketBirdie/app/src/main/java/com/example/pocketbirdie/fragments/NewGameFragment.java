@@ -64,6 +64,8 @@ public class NewGameFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //update game list
+        ((MainActivity)requireActivity()).updateGameList();
     }
 
     @Override
