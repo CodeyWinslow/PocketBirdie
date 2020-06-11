@@ -1,13 +1,9 @@
-package com.example.pocketbirdie.fragments;
+package com.nativegames.pocketbirdie.fragments;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.media.Image;
-import android.os.BaseBundle;
 import android.os.Bundle;
-import android.preference.DialogPreference;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,19 +11,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.pocketbirdie.MainActivity;
-import com.example.pocketbirdie.R;
-import com.example.pocketbirdie.model.DBInteract;
-import com.example.pocketbirdie.model.Game;
+import com.nativegames.pocketbirdie.MainActivity;
+import com.nativegames.pocketbirdie.R;
+import com.nativegames.pocketbirdie.model.DBInteract;
+import com.nativegames.pocketbirdie.model.Game;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import org.w3c.dom.Text;
-
-import java.util.Objects;
 
 public class GameFragment extends Fragment implements View.OnClickListener {
 

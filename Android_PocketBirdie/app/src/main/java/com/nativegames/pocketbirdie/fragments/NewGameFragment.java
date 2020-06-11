@@ -1,4 +1,4 @@
-package com.example.pocketbirdie.fragments;
+package com.nativegames.pocketbirdie.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,10 +11,10 @@ import android.widget.ImageButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.pocketbirdie.MainActivity;
-import com.example.pocketbirdie.R;
-import com.example.pocketbirdie.model.DBInteract;
-import com.example.pocketbirdie.model.Game;
+import com.nativegames.pocketbirdie.MainActivity;
+import com.nativegames.pocketbirdie.R;
+import com.nativegames.pocketbirdie.model.DBInteract;
+import com.nativegames.pocketbirdie.model.Game;
 
 import java.util.Calendar;
 import java.util.Date;

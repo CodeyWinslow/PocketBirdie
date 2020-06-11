@@ -1,4 +1,4 @@
-package com.example.pocketbirdie;
+package com.nativegames.pocketbirdie;
 
 import org.junit.Test;
 

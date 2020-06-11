@@ -1,4 +1,4 @@
-package com.example.pocketbirdie.fragments;
+package com.nativegames.pocketbirdie.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.pocketbirdie.R;
-import com.example.pocketbirdie.model.Game;
+import com.nativegames.pocketbirdie.R;
+import com.nativegames.pocketbirdie.model.Game;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class GameDetailsFragment extends Fragment

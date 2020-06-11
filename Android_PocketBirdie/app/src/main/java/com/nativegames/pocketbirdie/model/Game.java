@@ -1,13 +1,9 @@
-package com.example.pocketbirdie.model;
+package com.nativegames.pocketbirdie.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.Nullable;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Game implements Parcelable {
 

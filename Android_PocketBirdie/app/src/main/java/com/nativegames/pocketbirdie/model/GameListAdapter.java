@@ -1,4 +1,4 @@
-package com.example.pocketbirdie.model;
+package com.nativegames.pocketbirdie.model;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,17 +7,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.pocketbirdie.R;
-
-import org.w3c.dom.Text;
+import com.nativegames.pocketbirdie.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -59,7 +54,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         }
         catch (ParseException e)
         {
-            Log.d("GameListAdapter", "There was an issue");
+            //Log.d("GameListAdapter", "There was an issue");
         }
         Date today = Calendar.getInstance().getTime();
         sdf.applyPattern("MM/dd/yyyy");

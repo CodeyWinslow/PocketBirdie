@@ -1,36 +1,25 @@
-package com.example.pocketbirdie;
+package com.nativegames.pocketbirdie;
 
-import com.example.pocketbirdie.fragments.*;
-import com.example.pocketbirdie.model.*;
+import com.nativegames.pocketbirdie.fragments.*;
+import com.nativegames.pocketbirdie.model.*;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.database.DataSetObserver;
-import android.graphics.BlendMode;
-import android.graphics.BlendModeColorFilter;
-import android.graphics.ColorFilter;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.style.TtsSpan;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.List;
 

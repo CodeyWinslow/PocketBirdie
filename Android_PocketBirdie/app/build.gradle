@@ -1,21 +1,37 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('C:\\Users\\Codey\\Documents\\OIT\\CST407-MobileDev\\PocketBirdie\\keystore\\release-keystore.jks')
+            storePassword 'Chocolate.1998'
+            keyAlias 'key0'
+            keyPassword 'Chocolate.1998'
+        }
+        debug {
+            storeFile file('C:\\Users\\Codey\\Documents\\OIT\\CST407-MobileDev\\PocketBirdie\\keystore\\release-keystore.jks')
+            storePassword 'Chocolate.1998'
+            keyAlias 'key0'
+            keyPassword 'Chocolate.1998'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
 
     defaultConfig {
-        applicationId "com.example.pocketbirdie"
+        applicationId "com.nativegames.pocketbirdie"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.release
     }
 
     buildTypes {
         release {
+            debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

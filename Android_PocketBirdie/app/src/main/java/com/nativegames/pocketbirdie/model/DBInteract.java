@@ -1,17 +1,11 @@
-package com.example.pocketbirdie.model;
+package com.nativegames.pocketbirdie.model;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteCursorDriver;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteQuery;
 
-import java.io.File;
-import java.sql.SQLInput;
 import java.util.ArrayList;
 import java.util.List;
 
