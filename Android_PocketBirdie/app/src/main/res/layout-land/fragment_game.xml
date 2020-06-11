@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/game_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Gray1">
+
+    <!-- Hole navigation -->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/PinkPurple"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/game_park_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="36sp"
+                android:layout_marginHorizontal="10dp"
+                android:textColor="@color/White"
+                android:textAlignment="center"
+                android:text="Park Title"/>
+
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/game_hole_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_gravity="start|top"
+                    android:textSize="24sp"
+                    android:textColor="@color/White"
+                    android:text="Hole 0"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="end|top">
+
+                    <TextView
+                        android:id="@+id/game_par"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:textSize="24sp"
+                        android:textColor="@color/Green1"
+                        android:text="Par 3"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp">
+
+                        <ImageButton
+                            android:id="@+id/game_par_reduce"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:backgroundTint="@color/Green2"
+                            android:src="@drawable/ic_baseline_remove_24"/>
+
+                        <ImageButton
+                            android:id="@+id/game_par_increase"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginStart="20dp"
+                            android:backgroundTint="@color/Green2"
+                            android:src="@drawable/ic_baseline_add_24"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+
+
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <!-- Hole scoring -->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/game_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:textColor="@color/Green1"
+                android:textSize="120sp"
+                android:text="0"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="36sp"
+                android:textAlignment="center"
+                android:textColor="@color/Green1"
+                android:text="Score"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="end|center_vertical">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/game_score_increase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginBottom="10dp"
+                android:layout_marginHorizontal="10dp"
+                android:backgroundTint="@color/Green2"
+                android:src="@drawable/ic_baseline_add_24"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/game_score_reduce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginHorizontal="10dp"
+                android:backgroundTint="@color/Green2"
+                android:src="@drawable/ic_baseline_remove_24"/>
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/game_previous_hole"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|bottom"
+        android:layout_marginBottom="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:src="@drawable/ic_baseline_arrow_back_24"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/game_next_hole"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:src="@drawable/ic_baseline_arrow_forward_24"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

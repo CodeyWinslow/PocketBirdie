@@ -52,6 +52,7 @@ public class NewGameFragment extends Fragment implements View.OnClickListener {
         DBInteract.saveNewGame(newGame);
 
         GameFragment frag = new GameFragment(newGame);
+        frag.setRetainInstance(true);
         ft = requireActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frame_main_content, frag);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);

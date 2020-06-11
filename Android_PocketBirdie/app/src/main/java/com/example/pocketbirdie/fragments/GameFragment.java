@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -58,6 +59,26 @@ public class GameFragment extends Fragment implements View.OnClickListener {
     public GameFragment(Game existingGame)
     {
         currentGame = existingGame;
+    }
+
+    void setContent(View view)
+    {
+        parkTitle = view.findViewById(R.id.game_park_title);
+        holeView = view.findViewById(R.id.game_hole_num);
+        parView = view.findViewById(R.id.game_par);
+        scoreView = view.findViewById(R.id.game_score);
+        reducePar = view.findViewById(R.id.game_par_reduce);
+        reducePar.setOnClickListener(this);
+        increasePar = view.findViewById(R.id.game_par_increase);
+        increasePar.setOnClickListener(this);
+        reduceScore = view.findViewById(R.id.game_score_reduce);
+        reduceScore.setOnClickListener(this);
+        increaseScore = view.findViewById(R.id.game_score_increase);
+        increaseScore.setOnClickListener(this);
+        previousHole = view.findViewById(R.id.game_previous_hole);
+        previousHole.setOnClickListener(this);
+        nextHole = view.findViewById(R.id.game_next_hole);
+        nextHole.setOnClickListener(this);
     }
 
     void DisplayHoleDetails()
@@ -218,22 +239,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_game, container, false);
 
-        parkTitle = view.findViewById(R.id.game_park_title);
-        holeView = view.findViewById(R.id.game_hole_num);
-        parView = view.findViewById(R.id.game_par);
-        scoreView = view.findViewById(R.id.game_score);
-        reducePar = view.findViewById(R.id.game_par_reduce);
-        reducePar.setOnClickListener(this);
-        increasePar = view.findViewById(R.id.game_par_increase);
-        increasePar.setOnClickListener(this);
-        reduceScore = view.findViewById(R.id.game_score_reduce);
-        reduceScore.setOnClickListener(this);
-        increaseScore = view.findViewById(R.id.game_score_increase);
-        increaseScore.setOnClickListener(this);
-        previousHole = view.findViewById(R.id.game_previous_hole);
-        previousHole.setOnClickListener(this);
-        nextHole = view.findViewById(R.id.game_next_hole);
-        nextHole.setOnClickListener(this);
+        setContent(view);
 
         if (currentGame == null) {
             getActivity().finish();
@@ -252,11 +258,10 @@ public class GameFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
-
-
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        currentGame.setHole(hole, par, score);
         outState.putParcelable(BUNDLE_GAME, currentGame);
     }
 

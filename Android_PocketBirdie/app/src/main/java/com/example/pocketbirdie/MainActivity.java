@@ -58,7 +58,8 @@ public class MainActivity extends AppCompatActivity
         setToolbar();
         setContents();
         setDatabase();
-        setGame();
+        if (savedInstanceState == null)
+            setGame();
 
         initialized = true;
     }
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity
             Game currentGame = DBInteract.getGame(gameId);
 
             GameFragment frag = new GameFragment(currentGame);
-            frag.setRetainInstance(true);
+            //frag.setRetainInstance(true);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.frame_main_content, frag);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
@@ -156,6 +157,7 @@ public class MainActivity extends AppCompatActivity
 //                .apply();
 
         NewGameFragment frag = new NewGameFragment();
+        frag.setRetainInstance(true);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frame_main_content, frag, NewGameFragment.Fragment_Tag);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);

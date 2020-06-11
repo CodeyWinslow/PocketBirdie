@@ -3,6 +3,7 @@ package com.example.pocketbirdie.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -19,6 +20,7 @@ public class GameDetailsFragment extends Fragment
                             implements View.OnClickListener {
 
     public static String Fragment_Tag = "FRAG_TAG_DETAILS";
+    static String BUNDLE_GAME = "BUNDLEKEY_GAME";
 
     Game currentGame;
 
@@ -79,7 +81,18 @@ public class GameDetailsFragment extends Fragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            Game savedGame = savedInstanceState.getParcelable(BUNDLE_GAME);
+            if (savedGame != null) {
+                currentGame = savedGame;
+            }
+        }
+    }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(BUNDLE_GAME, currentGame);
     }
 
     @Override
