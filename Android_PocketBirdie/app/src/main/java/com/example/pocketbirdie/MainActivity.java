@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity
         List<Game> listOfGames;
         GameListAdapter adapter;
 
+        Boolean initialized = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,16 @@ public class MainActivity extends AppCompatActivity
         setContents();
         setDatabase();
         setGame();
+
+        initialized = true;
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        setContents();
+        setDatabase();
     }
 
     private void setToolbar()
@@ -111,6 +123,8 @@ public class MainActivity extends AppCompatActivity
         adapter.setGameList(listOfGames);
     }
 
+    public Boolean isInitialized() { return initialized; }
+
     private void LoadCurrentGame()
     {
         Long gameId = getPreferences(Context.MODE_PRIVATE)
@@ -125,6 +139,7 @@ public class MainActivity extends AppCompatActivity
             Game currentGame = DBInteract.getGame(gameId);
 
             GameFragment frag = new GameFragment(currentGame);
+            frag.setRetainInstance(true);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.frame_main_content, frag);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
@@ -146,6 +161,8 @@ public class MainActivity extends AppCompatActivity
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
         ft.commit();
     }
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
