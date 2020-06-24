@@ -54,7 +54,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         }
         catch (ParseException e)
         {
-            //Log.d("GameListAdapter", "There was an issue");
+            Log.d("GameListAdapter", "There was an issue");
         }
         Date today = Calendar.getInstance().getTime();
         sdf.applyPattern("MM/dd/yyyy");

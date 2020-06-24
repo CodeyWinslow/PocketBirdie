@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity
             setGame();
 
         initialized = true;
+        Log.d(DEBUG_TAG, "Main activity created.");
     }
 
     @Override
